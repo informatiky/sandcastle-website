@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sandcastle Website</title>
+  <link rel="shortcut icon" href="assets/sandcastle-favicon.png" type="image/x-icon">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
+    body { margin: 0; padding: 0; max-width: 100%; width: 100%; overflow-x: hidden}
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+    #header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ECEAE5;
+      width: 100%;
+      padding: 40px;
+      margin: 0;
+      box-sizing: border-box; /* Include padding and border in the element's total width and height */
+      font-family: "Lexend", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    #header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .aicsLogo {
+      width: 100px;
+      margin-right: 20px;
+    }
+
+    #header-right {
+      display: flex;
+      flex-wrap: nowrap; /* Prevent icons from wrapping to a new line */
+    }
+
+    .menu {
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
+      flex-shrink: 0; /* Prevent icons from shrinking */
+    }
+  </style>
+</head>
+<body>
+
+<div id="header">
+  <div id="header-left">
+    <img class="aicsLogo" src="assets/aics.png" />
+    <h1>SandCastle Web</h1>
+  </div>
+  <div id="header-right">
+    <a href="index.html"><img class="menu" src="assets/home.svg" /></a>
+    <a href="map.html"><img class="menu" src="assets/map.svg" /></a>
+    <a href="tips.html"><img class="menu" src="assets/tips.svg" /></a>
+    <a href="history.html"><img class="menu" src="assets/history.svg" /></a>
+    <a href="info.html"><img class="menu" src="assets/info.svg" /></a>
+  </div>
+</div>
+
+<div id="organic-transition">
+  <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
+    <path d="M 153 0 L 286 53 L 529 17 L 753 5 L 901 28 L 1000 13 L 1000 0 L 0 0 Z" fill="#ECEAE5" />
+  </svg>
+</div>
+
+<a href="map.html"><h2>Map</h2></a>
+<h2>Tips & Tricks</h2>
+<p></p>
+<h2>History</h2>
+<p></p>
+<div id="goToTop">
+  <p><a href="#header">Go To Top</a></p>
+</div>
+
+
+
+
+<div id="footer">
+  <p></p>
+</div>
+<script>
+
+  // Select all menu images
+  let menuImages = document.querySelectorAll('.menu');
+
+  // Loop through each image
+  menuImages.forEach((img) => {
+    // Store the original src
+    let originalSrc = img.src;
+
+    // Check if the image is not home.svg
+    if (!originalSrc.includes('info.svg')) {
+      // Add mouseover event listener
+      img.addEventListener('mouseover', function() {
+        // Change the src to the new image
+        // Append 'a' to the original image name
+        img.src = originalSrc.replace('.svg', 'a.svg');
+      });
+
+      // Add mouseout event listener
+      img.addEventListener('mouseout', function() {
+        // Change the src back to the original image
+        img.src = originalSrc;
+      });
+    }
+  });
+
+</script>
+</body>
+</html>

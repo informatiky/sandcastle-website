@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Display a map on a webpage</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        #menu {
+            background: #fff;
+            position: absolute;
+            z-index: 1;
+            top: 10px;
+            right: 10px;
+            border-radius: 3px;
+            width: 120px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #menu a {
+            font-size: 13px;
+            color: #404040;
+            display: block;
+            margin: 0;
+            padding: 0;
+            padding: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        #menu a:last-child {
+            border: none;
+        }
+
+        #menu a:hover {
+            background-color: #f8f8f8;
+            color: #404040;
+        }
+
+        #menu a.active {
+            background-color: #3887be;
+            color: #ffffff;
+        }
+
+        #menu a.active:hover {
+            background: #3074a4;
+        }
+    </style>
+</head>
+<body>
+<nav id="menu"></nav>
+<div id="map"></div>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZG9icmV2IiwiYSI6ImNscTZ0OXF2aDA4Y3Mya3FxeXh1eDhrMDYifQ.DUfho9X-o7fXg0EmFl5-uw';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/dobrev/cluwr3e3h002f01oc1wa77c4o',
+        zoom: 20,
+        maxBounds: [
+            [4.949345, 52.311347], // Southwest coordinates
+            [4.952598, 52.313992]  // Northeast coordinates
+        ]
+    });
+
+    const geolocateControl = new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showUserHeading: true
+    });
+
+    map.addControl(geolocateControl);
+
+    map.setCenter([4.950331, 52.312669]); // Set location
+
+    // geolocateControl.on('geolocate', (position) => {
+    //     const { coords } = position;
+    //
+    //     if (coords) {
+    //         map.setCenter([coords.longitude, coords.latitude]);
+    //     } else {
+    //         map.setCenter([4.950649, 52.312915]); // Set location
+    //     }
+    // });
+
+    const floors = [
+        'groundfloor',
+        'entresol',
+        'internalstreet',
+        'firstfloor',
+        'secondfloor',
+        'thirdfloor',
+        'fourthfloor',
+        'fithfloor'
+    ];
+
+    let activeFloor = 'internalstreet';
+
+    map.on('load', () => {
+        floors.forEach(floor => {
+            const visibility = floor === 'internalstreet' ? 'visible' : 'none';
+
+            map.addLayer({
+                'id': `dobrev-${floor}`,
+                'type': 'fill',
+                'source': {
+                    'type': 'vector',
+                    'url': 'mapbox://dobrev.cluwr3e3h002f01oc1wa77c4o'
+                },
+                'source-layer': `${floor}`,
+                'layout': {
+                    'visibility': visibility
+                },
+                'paint': {
+                    'fill-opacity': 0.5
+                }
+            });
+        });
+
+        const toggleableLayerIds = floors.map(floor => `dobrev-${floor}`);
+
+        for (const id of toggleableLayerIds) {
+            if (document.getElementById(id)) {
+                continue;
+            }
+
+            const link = document.createElement('a');
+            link.id = id;
+            link.href = '#';
+            link.textContent = id.replace('dobrev-', '');
+            link.className = id === `dobrev-${activeFloor}` ? 'active' : '';
+
+            link.onclick = function (e) {
+                const clickedLayer = this.textContent;
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Deactivate the previously active floor
+                const previousLink = document.getElementById(`dobrev-${activeFloor}`);
+                previousLink.className = '';
+                map.setLayoutProperty(`dobrev-${activeFloor}`, 'visibility', 'none');
+
+                // Activate the clicked floor
+                activeFloor = clickedLayer;
+                this.className = 'active';
+                map.setLayoutProperty(`dobrev-${clickedLayer}`, 'visibility', 'visible');
+            };
+
+            const layers = document.getElementById('menu');
+            layers.appendChild(link);
+        }
+    });
+</script>
+</body>
+</html>
