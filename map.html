@@ -117,27 +117,29 @@
     let activeFloor = 'internalstreet';
 
     map.on('load', () => {
-        floors.forEach(floor => {
-            const visibility = floor === 'internalstreet' ? 'visible' : 'none';
-
-            map.addLayer({
-                'id': `dobrev-${floor}`,
-                'type': 'fill',
-                'source': {
-                    'type': 'vector',
-                    'url': 'mapbox://dobrev.cluwr3e3h002f01oc1wa77c4o'
-                },
-                'source-layer': `${floor}`,
-                'layout': {
-                    'visibility': visibility
-                },
-                'paint': {
-                    'fill-opacity': 0.5
-                }
-            });
+        // Initially, only add the 'internalstreet' layer
+        map.addLayer({
+            'id': `dobrev-internalstreet`,
+            'type': 'fill',
+            'source': {
+                'type': 'vector',
+                'url': 'mapbox://dobrev.cluwr3e3h002f01oc1wa77c4o'
+            },
+            'source-layer': `internalstreet`,
+            'layout': {
+                'visibility': 'visible'
+            },
+            'paint': {
+                'fill-opacity': 0.5
+            }
         });
 
         const toggleableLayerIds = floors.map(floor => `dobrev-${floor}`);
+        const toggleableLayerSources = floors.map(floor => ({
+            'id': `dobrev-${floor}`,
+            'type': 'vector',
+            'url': 'mapbox://dobrev.cluwr3e3h002f01oc1wa77c4o'
+        }));
 
         for (const id of toggleableLayerIds) {
             if (document.getElementById(id)) {
@@ -148,7 +150,7 @@
             link.id = id;
             link.href = '#';
             link.textContent = id.replace('dobrev-', '');
-            link.className = id === `dobrev-${activeFloor}` ? 'active' : '';
+            link.className = id === `dobrev-internalstreet` ? 'active' : '';
 
             link.onclick = function (e) {
                 const clickedLayer = this.textContent;
@@ -160,10 +162,33 @@
                 previousLink.className = '';
                 map.setLayoutProperty(`dobrev-${activeFloor}`, 'visibility', 'none');
 
+                // Check if the clicked layer is already added
+                if (map.getLayer(`dobrev-${clickedLayer}`)) {
+                    // If added, just make it visible
+                    map.setLayoutProperty(`dobrev-${clickedLayer}`, 'visibility', 'visible');
+                } else {
+                    // If not added, add the source and layer
+                    const sourceId = `dobrev-${clickedLayer}`;
+                    const source = toggleableLayerSources.find(s => s.id === sourceId);
+                    map.addSource(sourceId, source);
+
+                    map.addLayer({
+                        'id': `dobrev-${clickedLayer}`,
+                        'type': 'fill',
+                        'source': sourceId,
+                        'source-layer': `${clickedLayer}`,
+                        'layout': {
+                            'visibility': 'visible'
+                        },
+                        'paint': {
+                            'fill-opacity': 0.5
+                        }
+                    });
+                }
+
                 // Activate the clicked floor
                 activeFloor = clickedLayer;
                 this.className = 'active';
-                map.setLayoutProperty(`dobrev-${clickedLayer}`, 'visibility', 'visible');
             };
 
             const layers = document.getElementById('menu');
