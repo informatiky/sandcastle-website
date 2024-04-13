@@ -1,0 +1,15 @@
+{
+  "name": "SandCastle Web",
+  "short_name": "SandCastle",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FFDDAB",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/sandcastle-favicon.png",
+      "type": "image/png", "sizes": "512x512"
+    }
+  ]
+}
