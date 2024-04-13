@@ -1,199 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Sandcastle Map</title>
-    <link rel="preload" href="assets/historya.svg" as="image" type="image/svg+xml">
-    <link rel="preload" href="assets/homea.svg" as="image" type="image/svg+xml">
-    <link rel="preload" href="assets/infoa.svg" as="image" type="image/svg+xml">
-    <link rel="preload" href="assets/mapa.svg" as="image" type="image/svg+xml">
-    <link rel="preload" href="assets/tipsa.svg" as="image" type="image/svg+xml">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+    <meta charset="UTF-8" />
+    <title>Map</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet"/>
     <style>
         body {
             margin: 0;
             padding: 0;
         }
+
         #map {
             position: absolute;
             top: 0;
             bottom: 0;
             width: 100%;
         }
-        #menu {
-            background: #fff;
+
+        #layer-buttons {
             position: absolute;
-            z-index: 1;
             top: 10px;
             right: 10px;
-            border-radius: 3px;
-            width: 120px;
-            border: 1px solid rgba(0, 0, 0, 0.4);
-            font-family: 'Open Sans', sans-serif;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        #menu a {
-            font-size: 13px;
-            color: #404040;
-            display: block;
-            margin: 0;
-            padding: 0;
-            padding: 10px;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-            text-align: center;
+        #layer-buttons button {
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
         }
 
-        #menu a:last-child {
-            border: none;
-        }
-
-        #menu a:hover {
-            background-color: #f8f8f8;
-            color: #404040;
-        }
-
-        #menu a.active {
-            background-color: #3887be;
-            color: #ffffff;
-        }
-
-        #menu a.active:hover {
-            background: #3074a4;
+        #layer-buttons button.active {
+            background-color: #007bff;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-<nav id="menu"></nav>
 <div id="map"></div>
-
+<div id="layer-buttons">
+    <button id="internalstreet-btn" class="active">Internal Street</button>
+    <button id="groundfloor-btn">Ground Floor</button>
+    <button id="entresol-btn">Entresol</button>
+    <button id="firstfloor-btn">First Floor</button>
+    <button id="secondfloor-btn">Second Floor</button>
+    <button id="thirdfloor-btn">Third Floor</button>
+    <button id="fourthfloor-btn">Fourth Floor</button>
+    <button id="fithfloor-btn">Fifth Floor</button>
+</div>
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZG9icmV2IiwiYSI6ImNscTZ0OXF2aDA4Y3Mya3FxeXh1eDhrMDYifQ.DUfho9X-o7fXg0EmFl5-uw';
+    mapboxgl.accessToken =
+        'pk.eyJ1IjoiZG9icmV2IiwiYSI6ImNsdXh2bHNsZzB0anAya3J5ZWt4d2kxdGcifQ.16chPGvuiy7NtNPT40j4-Q';
+
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/dobrev/cluwr3e3h002f01oc1wa77c4o',
         zoom: 20,
         maxBounds: [
-            [4.949345, 52.311347], // Southwest coordinates
-            [4.952598, 52.313992]  // Northeast coordinates
-        ]
+            [4.949827224355914, 52.31203354448894], // Southwest coordinates
+            [4.951352119815851, 52.3132040022972], // Northeast coordinates
+        ],
     });
-
-    const geolocateControl = new mapboxgl.GeolocateControl({
-        positionOptions: {
-            enableHighAccuracy: true
-        },
-        trackUserLocation: true,
-        showUserHeading: true
-    });
-
-    map.addControl(geolocateControl);
-
-    map.setCenter([4.950331, 52.312669]); // Set location
-
-    // geolocateControl.on('geolocate', (position) => {
-    //     const { coords } = position;
-    //
-    //     if (coords) {
-    //         map.setCenter([coords.longitude, coords.latitude]);
-    //     } else {
-    //         map.setCenter([4.950649, 52.312915]); // Set location
-    //     }
-    // });
-
-    const floors = [
-        'groundfloor',
-        'entresol',
-        'internalstreet',
-        'firstfloor',
-        'secondfloor',
-        'thirdfloor',
-        'fourthfloor',
-        'fithfloor'
-    ];
-
-    let activeFloor = 'internalstreet';
 
     map.on('load', () => {
-        // Initially, only add the 'internalstreet' layer
-        map.addLayer({
-            'id': `dobrev-internalstreet`,
-            'type': 'fill',
-            'source': {
-                'type': 'vector',
-                'url': 'mapbox://dobrev.cluwr3e3h002f01oc1wa77c4o'
-            },
-            'source-layer': `internalstreet`,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'fill-opacity': 0.5
-            }
+        const layerIds = [
+            'dobrev-groundfloor',
+            'dobrev-entresol',
+            'dobrev-internalstreet',
+            'dobrev-firstfloor',
+            'dobrev-secondfloor',
+            'dobrev-thirdfloor',
+            'dobrev-fourthfloor',
+            'dobrev-fithfloor',
+        ];
+
+        // Initially, hide all layers
+        layerIds.forEach((layerId) => {
+            map.setLayoutProperty(layerId, 'visibility', 'none');
         });
 
-        const toggleableLayerIds = floors.map(floor => `dobrev-${floor}`);
-        const toggleableLayerSources = floors.map(floor => ({
-            'id': `dobrev-${floor}`,
-            'type': 'vector',
-            'url': 'mapbox://dobrev.cluwr3e3h002f01oc1wa77c4o'
-        }));
+        map.setCenter([4.950331, 52.312669]);
 
-        for (const id of toggleableLayerIds) {
-            if (document.getElementById(id)) {
-                continue;
-            }
+        const layerButtons = document.querySelectorAll('#layer-buttons button');
+        layerButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const layerId = button.id.replace('-btn', '');
 
-            const link = document.createElement('a');
-            link.id = id;
-            link.href = '#';
-            link.textContent = id.replace('dobrev-', '');
-            link.className = id === `dobrev-internalstreet` ? 'active' : '';
+                if (layerIds.includes(layerId)) {
+                    const currentActiveButton = document.querySelector('#layer-buttons button.active');
+                    if (currentActiveButton) {
+                        currentActiveButton.classList.remove('active');
+                    }
+                    button.classList.add('active');
 
-            link.onclick = function (e) {
-                const clickedLayer = this.textContent;
-                e.preventDefault();
-                e.stopPropagation();
-
-                // Deactivate the previously active floor
-                const previousLink = document.getElementById(`dobrev-${activeFloor}`);
-                previousLink.className = '';
-                map.setLayoutProperty(`dobrev-${activeFloor}`, 'visibility', 'none');
-
-                // Check if the clicked layer is already added
-                if (map.getLayer(`dobrev-${clickedLayer}`)) {
-                    // If added, just make it visible
-                    map.setLayoutProperty(`dobrev-${clickedLayer}`, 'visibility', 'visible');
-                } else {
-                    // If not added, add the source and layer
-                    const sourceId = `dobrev-${clickedLayer}`;
-                    const source = toggleableLayerSources.find(s => s.id === sourceId);
-                    map.addSource(sourceId, source);
-
-                    map.addLayer({
-                        'id': `dobrev-${clickedLayer}`,
-                        'type': 'fill',
-                        'source': sourceId,
-                        'source-layer': `${clickedLayer}`,
-                        'layout': {
-                            'visibility': 'visible'
-                        },
-                        'paint': {
-                            'fill-opacity': 0.5
+                    layerIds.forEach((id) => {
+                        if (id === layerId) {
+                            map.setLayoutProperty(id, 'visibility', 'visible');
+                        } else {
+                            map.setLayoutProperty(id, 'visibility', 'none');
                         }
                     });
                 }
+            });
+        });
 
-                // Activate the clicked floor
-                activeFloor = clickedLayer;
-                this.className = 'active';
-            };
-
-            const layers = document.getElementById('menu');
-            layers.appendChild(link);
-        }
+        const internalStreetButton = document.querySelector('#internalstreet-btn');
+        internalStreetButton.click();
     });
 </script>
 </body>
