@@ -1,63 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Map</title>
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet"/>
+    <meta charset="utf-8">
+    <title>Map Example</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
-
-        #layer-buttons {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #layer-buttons button {
-            margin-bottom: 5px;
-            padding: 5px 10px;
-            font-size: 14px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        }
-
-        #layer-buttons button.active {
-            background-color: #007bff;
-            color: #fff;
-        }
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        #buttons { position: absolute; top: 10px; left: 10px; z-index: 1; }
+        #buttons button { margin-bottom: 5px; }
     </style>
 </head>
 <body>
 <div id="map"></div>
-<div id="layer-buttons">
-    <button id="internalstreet-btn" class="active">Internal Street</button>
-    <button id="groundfloor-btn">Ground Floor</button>
+<div id="buttons">
+    <button id="internal-street-btn">Internal Street</button>
+    <button id="ground-floor-btn">Ground Floor</button>
     <button id="entresol-btn">Entresol</button>
-    <button id="firstfloor-btn">First Floor</button>
-    <button id="secondfloor-btn">Second Floor</button>
-    <button id="thirdfloor-btn">Third Floor</button>
-    <button id="fourthfloor-btn">Fourth Floor</button>
-    <button id="fithfloor-btn">Fifth Floor</button>
+    <button id="first-floor-btn">First Floor</button>
+    <button id="second-floor-btn">Second Floor</button>
+    <button id="third-floor-btn">Third Floor</button>
+    <button id="fourth-floor-btn">Fourth Floor</button>
+    <button id="fith-floor-btn">Fifth Floor</button>
 </div>
 <script>
-    mapboxgl.accessToken =
-        'pk.eyJ1IjoiZG9icmV2IiwiYSI6ImNsdXh2bHNsZzB0anAya3J5ZWt4d2kxdGcifQ.16chPGvuiy7NtNPT40j4-Q';
-
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZG9icmV2IiwiYSI6ImNsdXh2bHNsZzB0anAya3J5ZWt4d2kxdGcifQ.16chPGvuiy7NtNPT40j4-Q';
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/dobrev/cluwr3e3h002f01oc1wa77c4o',
@@ -66,53 +35,61 @@
             [4.949827224355914, 52.31203354448894], // Southwest coordinates
             [4.951352119815851, 52.3132040022972], // Northeast coordinates
         ],
+        center: [4.950331, 52.312669]
     });
 
-    map.on('load', () => {
-        const layerIds = [
-            'dobrev-groundfloor',
-            'dobrev-entresol',
-            'dobrev-internalstreet',
-            'dobrev-firstfloor',
-            'dobrev-secondfloor',
-            'dobrev-thirdfloor',
-            'dobrev-fourthfloor',
-            'dobrev-fithfloor',
-        ];
+    map.on('load', function() {
+        // Set the initial visibility of the layers
+        map.setLayoutProperty('dobrev-internalstreet', 'visibility', 'visible');
+        map.setLayoutProperty('dobrev-groundfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-entresol', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-firstfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-secondfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-thirdfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-fourthfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-fithfloor', 'visibility', 'none');
 
-        // Initially, hide all layers
-        layerIds.forEach((layerId) => {
-            map.setLayoutProperty(layerId, 'visibility', 'none');
+        // Add click event listeners to the buttons
+        document.getElementById('internal-street-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-internalstreet', ['dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
         });
 
-        map.setCenter([4.950331, 52.312669]);
-
-        const layerButtons = document.querySelectorAll('#layer-buttons button');
-        layerButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const layerId = button.id.replace('-btn', '');
-
-                if (layerIds.includes(layerId)) {
-                    const currentActiveButton = document.querySelector('#layer-buttons button.active');
-                    if (currentActiveButton) {
-                        currentActiveButton.classList.remove('active');
-                    }
-                    button.classList.add('active');
-
-                    layerIds.forEach((id) => {
-                        if (id === layerId) {
-                            map.setLayoutProperty(id, 'visibility', 'visible');
-                        } else {
-                            map.setLayoutProperty(id, 'visibility', 'none');
-                        }
-                    });
-                }
-            });
+        document.getElementById('ground-floor-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-groundfloor', ['dobrev-internalstreet', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
         });
 
-        const internalStreetButton = document.querySelector('#internalstreet-btn');
-        internalStreetButton.click();
+        document.getElementById('entresol-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-entresol', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+        });
+
+        document.getElementById('first-floor-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-firstfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+        });
+
+        document.getElementById('second-floor-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-secondfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+        });
+
+        document.getElementById('third-floor-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-thirdfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+        });
+
+        document.getElementById('fourth-floor-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-fourthfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fithfloor']);
+        });
+
+        document.getElementById('fith-floor-btn').addEventListener('click', function() {
+            toggleLayerVisibility('dobrev-fithfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor']);
+        });
     });
+
+    function toggleLayerVisibility(layerToShow, layersToHide) {
+        map.setLayoutProperty(layerToShow, 'visibility', 'visible');
+
+        layersToHide.forEach(function(layer) {
+            map.setLayoutProperty(layer, 'visibility', 'none');
+        });
+    }
 </script>
 </body>
 </html>
