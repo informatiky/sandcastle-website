@@ -39,7 +39,15 @@
     });
 
     map.on('load', function() {
-        // Initially, no layers are loaded
+        // Set the initial visibility of all layers to 'none'
+        map.setLayoutProperty('dobrev-internalstreet', 'visibility', 'visible');
+        map.setLayoutProperty('dobrev-groundfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-entresol', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-firstfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-secondfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-thirdfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-fourthfloor', 'visibility', 'none');
+        map.setLayoutProperty('dobrev-fithfloor', 'visibility', 'none');
     });
 
     // Add click event listeners to the buttons
@@ -76,24 +84,12 @@
     });
 
     function toggleLayerVisibility(layerToShow, layersToHide) {
-        // Load the layer to show if it's not already loaded
-        if (!map.getLayer(layerToShow)) {
-            map.addLayer({
-                id: layerToShow,
-                source: 'YOUR_SOURCE_ID',
-                'source-layer': 'YOUR_SOURCE_LAYER',
-                type: 'YOUR_LAYER_TYPE'
-            });
-        }
-
         // Set the visibility of the layer to show
         map.setLayoutProperty(layerToShow, 'visibility', 'visible');
 
         // Hide the layers that need to be hidden
         layersToHide.forEach(function(layer) {
-            if (map.getLayer(layer)) {
-                map.setLayoutProperty(layer, 'visibility', 'none');
-            }
+            map.setLayoutProperty(layer, 'visibility', 'none');
         });
     }
 </script>
