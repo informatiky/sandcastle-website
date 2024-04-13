@@ -23,7 +23,7 @@
     <button id="second-floor-btn">Second Floor</button>
     <button id="third-floor-btn">Third Floor</button>
     <button id="fourth-floor-btn">Fourth Floor</button>
-    <button id="fith-floor-btn">Fifth Floor</button>
+    <button id="fith-floor-btn">Fith Floor</button>
 </div>
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiZG9icmV2IiwiYSI6ImNsdXh2bHNsZzB0anAya3J5ZWt4d2kxdGcifQ.16chPGvuiy7NtNPT40j4-Q';
@@ -39,55 +39,61 @@
     });
 
     map.on('load', function() {
-        // Set the initial visibility of the layers
-        map.setLayoutProperty('dobrev-internalstreet', 'visibility', 'visible');
-        map.setLayoutProperty('dobrev-groundfloor', 'visibility', 'none');
-        map.setLayoutProperty('dobrev-entresol', 'visibility', 'none');
-        map.setLayoutProperty('dobrev-firstfloor', 'visibility', 'none');
-        map.setLayoutProperty('dobrev-secondfloor', 'visibility', 'none');
-        map.setLayoutProperty('dobrev-thirdfloor', 'visibility', 'none');
-        map.setLayoutProperty('dobrev-fourthfloor', 'visibility', 'none');
-        map.setLayoutProperty('dobrev-fithfloor', 'visibility', 'none');
+        // Initially, no layers are loaded
+    });
 
-        // Add click event listeners to the buttons
-        document.getElementById('internal-street-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-internalstreet', ['dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
-        });
+    // Add click event listeners to the buttons
+    document.getElementById('internal-street-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-internalstreet', ['dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+    });
 
-        document.getElementById('ground-floor-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-groundfloor', ['dobrev-internalstreet', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
-        });
+    document.getElementById('ground-floor-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-groundfloor', ['dobrev-internalstreet', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+    });
 
-        document.getElementById('entresol-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-entresol', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
-        });
+    document.getElementById('entresol-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-entresol', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+    });
 
-        document.getElementById('first-floor-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-firstfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
-        });
+    document.getElementById('first-floor-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-firstfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+    });
 
-        document.getElementById('second-floor-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-secondfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
-        });
+    document.getElementById('second-floor-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-secondfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+    });
 
-        document.getElementById('third-floor-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-thirdfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
-        });
+    document.getElementById('third-floor-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-thirdfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-fourthfloor', 'dobrev-fithfloor']);
+    });
 
-        document.getElementById('fourth-floor-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-fourthfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fithfloor']);
-        });
+    document.getElementById('fourth-floor-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-fourthfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fithfloor']);
+    });
 
-        document.getElementById('fith-floor-btn').addEventListener('click', function() {
-            toggleLayerVisibility('dobrev-fithfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor']);
-        });
+    document.getElementById('fith-floor-btn').addEventListener('click', function() {
+        toggleLayerVisibility('dobrev-fithfloor', ['dobrev-internalstreet', 'dobrev-groundfloor', 'dobrev-entresol', 'dobrev-firstfloor', 'dobrev-secondfloor', 'dobrev-thirdfloor', 'dobrev-fourthfloor']);
     });
 
     function toggleLayerVisibility(layerToShow, layersToHide) {
+        // Load the layer to show if it's not already loaded
+        if (!map.getLayer(layerToShow)) {
+            map.addLayer({
+                id: layerToShow,
+                source: 'YOUR_SOURCE_ID',
+                'source-layer': 'YOUR_SOURCE_LAYER',
+                type: 'YOUR_LAYER_TYPE'
+            });
+        }
+
+        // Set the visibility of the layer to show
         map.setLayoutProperty(layerToShow, 'visibility', 'visible');
 
+        // Hide the layers that need to be hidden
         layersToHide.forEach(function(layer) {
-            map.setLayoutProperty(layer, 'visibility', 'none');
+            if (map.getLayer(layer)) {
+                map.setLayoutProperty(layer, 'visibility', 'none');
+            }
         });
     }
 </script>
