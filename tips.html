@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sandcastle Website</title>
     <link rel="shortcut icon" href="assets/sandcastle-favicon.png" type="image/x-icon">
@@ -13,11 +13,18 @@
     <link rel="preload" href="assets/tipsa.svg" as="image" type="image/svg+xml">
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#FFBB6D">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-
-        body { margin: 0; padding: 0; max-width: 100%; width: 100%; overflow-x: hidden}
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        body {
+            margin: 0;
+            font-family: "Lexend", sans-serif;
+            font-weight: 400;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+            overflow-x: hidden;
+        }
 
         #header {
             display: flex;
@@ -26,11 +33,7 @@
             background: #FFBB6D;
             width: 100%;
             padding: 40px;
-            margin: 0;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            font-family: "Lexend", sans-serif;
-            font-weight: 400;
-            font-style: normal;
+            box-sizing: border-box;
         }
 
         #header-left {
@@ -45,16 +48,111 @@
 
         #header-right {
             display: flex;
-            flex-wrap: nowrap; /* Prevent icons from wrapping to a new line */
+            flex-wrap: nowrap;
         }
 
         .menu {
             width: 50px;
             height: 50px;
             margin-left: 10px;
-            flex-shrink: 0; /* Prevent icons from shrinking */
+            flex-shrink: 0;
         }
-        @media (max-width: 600px) {
+
+        footer {
+            background-color: #FFBB6D;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            color: #282828;
+        }
+
+        footer div {
+            margin: 0 20px;
+        }
+
+        footer h3 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        footer nav ul li {
+            margin-right: 15px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #c17e32;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #282828;
+        }
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: -50px;
+        }
+
+        h1, h2 {
+            color: #282828;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+
+        p {
+            color: #282828;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 50%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .media-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .media-container video,
+        .media-container .map-container {
+            width: 48%; /* Slightly less than 50% to account for spacing */
+        }
+
+        .map-container {
+            position: relative;
+            padding-bottom: 27%; /* Adjust this value to match the video's aspect ratio */
+        }
+
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+
+        }
+        @media (max-width: 768px) {
             #header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -62,7 +160,6 @@
             }
 
             #header-left, #header-right {
-                display: block;
                 width: 100%;
             }
 
@@ -71,6 +168,7 @@
                 height: 30px;
                 margin: 5px;
             }
+
             footer {
                 flex-direction: column;
                 padding: 10px;
@@ -88,22 +186,34 @@
             footer nav ul li {
                 margin: 5px 0;
             }
+            .media-container {
+                flex-direction: column;
+            }
+
+            .media-container video,
+            .media-container .map-container {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .map-container {
+                padding-bottom: 56.25%; /* 16:9 aspect ratio for full width */
+            }
         }
     </style>
 </head>
 <body>
-
 <div id="header">
     <div id="header-left">
-        <img class="aicsLogo" src="assets/aics.png" />
+        <img class="aicsLogo" src="assets/aics.png" alt="AICS Logo" />
         <h1>SandCastle Web</h1>
     </div>
     <div id="header-right">
-        <a href="index.html"><img class="menu" src="assets/home.svg" /></a>
-        <a href="map.html"><img class="menu" src="assets/map.svg" /></a>
-        <a href="tips.html"><img class="menu" src="assets/tips.svg" /></a>
-        <a href="history.html"><img class="menu" src="assets/history.svg" /></a>
-        <a href="info.html"><img class="menu" src="assets/info.svg" /></a>
+        <a href="index.html"><img class="menu" src="assets/home.svg" alt="Home" /></a>
+        <a href="map.html"><img class="menu" src="assets/map.svg" alt="Map" /></a>
+        <a href="tips.html"><img class="menu" src="assets/tips.svg" alt="Tips" /></a>
+        <a href="history.html"><img class="menu" src="assets/history.svg" alt="History" /></a>
+        <a href="info.html"><img class="menu" src="assets/info.svg" alt="Info" /></a>
     </div>
 </div>
 
@@ -113,60 +223,95 @@
     </svg>
 </div>
 
-<h2>Tips & Tricks</h2>
+<main>
+    <h1>Tips & Tricks</h1>
 
+    <h2>Access</h2>
 
+    <p><u>Public Transport:</u> <br> The Sandcastle is very accessible via public transport. A three-minute walk away from the main entrance is the Bijlmer Arena Train, Metro and Bus station. See <a href="https://gvb.nl">gvb.nl</a> and <a href="https://ns.nl">ns.nl</a> for more information.</p>
 
+    <p><u>Car:</u> <br> The Sandcastle has a Kiss and Ride parking accessible from the Foppingadreef. Look up ParkBee Foppingadreef on Google Maps.</p>
+    <div class="media-container">
+        <video controls preload="none">
+            <source src="https://data.server-network.org/sandcastleweb/car.mov" type="video/mp4">
+            Your browser does not support the video format.
+        </video>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123.70185516519547!2d4.950936108217491!3d52.311642273889746!2m3!1f321.8502822734819!2f45!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x47c60b13d39dcd03%3A0xbf516102947f796a!2sParkBee%20Foppingadreef!5e1!3m2!1sen!2snl!4v1719064301471!5m2!1sen!2snl" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+    <p><u>Bike:</u> <br> The Sandcastle has an indoor bike parking, to access it you have to walk through the pedestrian zone and enter next to the Subway Sandwich shop. In the mornings, the door is open. If it is not, please ring the bell.</p>
+    <video controls preload="none">
+        <source src="https://data.server-network.org/sandcastleweb/bike.mov" type="video/mp4">
+        Your browser does not support the video format.
+    </video>
+    <h2>Miscellaneous</h2>
+    <p>Elevators are only accessible by the staff in our school, but if you ask them REALLY nicely, maybe they will let you on it as well. <br><br>
 
+        The library is a great place to study, especially on the 2nd floor of it.<br><br>
 
+        You cannot use your device in the cafeteria from 11:45 to 13:15, but after or before that you are free to use laptops.<br><br>
 
+        The primary area is bigger than the secondary area.<br><br>
 
-<footer style="background-color: #FFBB6D; position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; color: #282828; font-family: 'Lexend', sans-serif; font-weight: 400; font-style: normal;">
-    <div style="margin-right: 20px;">
-        <h3 style="margin: 0; font-weight: bold;">SandCastle Web</h3>
-        <a href="#header"><p style="margin: 5px 0; font-style: italic; color: #282828; text-decoration: underline;">Back to the top</p></a>
+        To get from the ground floor to the top floor you need to take around 300 steps.<br><br>
+
+        This building once was a bank and is now a school!<br><br>
+
+        This whole building as well as some of the things inside it are considered art!
+    </p>
+    <h2>Inside: Primary</h2>
+    <video controls preload="none">
+        <source src="https://data.server-network.org/sandcastleweb/primary.mov" type="video/mp4">
+        Your browser does not support the video format.
+    </video>
+    <h2>Inside: Secondary</h2>
+    <video controls preload="none">
+        <source src="https://data.server-network.org/sandcastleweb/secondary.mov" type="video/mp4">
+        Your browser does not support the video format.
+    </video>
+</main>
+
+<footer>
+    <div>
+        <h3>SandCastle Web</h3>
+        <a href="#header"><p>Back to the top</p></a>
     </div>
     <nav>
-        <ul style="list-style-type: none; margin: 0; padding: 0; display: flex;">
-            <li style="margin-right: 15px;"><a href="/" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Home</a></li>
-            <li style="margin-right: 15px;"><a href="map.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Sandcastle Map</a></li>
-            <li style="margin-right: 15px;"><a href="tips.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Tips&Tricks</a></li>
-            <li style="margin-right: 15px;"><a href="history.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">History</a></li>
-            <li style="margin-right: 15px;"><a href="info.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Admin/Info</a></li>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="map.html">Sandcastle Map</a></li>
+            <li><a href="tips.html">Tips&Tricks</a></li>
+            <li><a href="history.html">History</a></li>
+            <li><a href="info.html">Admin/Info</a></li>
         </ul>
     </nav>
-    <div style="margin-left: 20px;">
-        <p style="margin: 5px 0;">Created by students of <a href="https://aics.espritscholen.nl" target="_blank" style="color: #282828; text-decoration: underline;">AICS</a></p>
-        <p style="margin: 5px 0; font-size: 12px;">&copy; 2024 SandCastle Web. All rights reserved.</p>
+    <div>
+        <p>Created by students of <a href="https://aics.espritscholen.nl" target="_blank">AICS</a></p>
+        <p>&copy; 2024 SandCastle Web. All rights reserved.</p>
     </div>
 </footer>
+
 <script>
-
-    // Select all menu images
     let menuImages = document.querySelectorAll('.menu');
-
-    // Loop through each image
     menuImages.forEach((img) => {
-        // Store the original src
         let originalSrc = img.src;
-
-        // Check if the image is not home.svg
         if (!originalSrc.includes('tips.svg')) {
-            // Add mouseover event listener
             img.addEventListener('mouseover', function() {
-                // Change the src to the new image
-                // Append 'a' to the original image name
                 img.src = originalSrc.replace('.svg', 'a.svg');
             });
-
-            // Add mouseout event listener
             img.addEventListener('mouseout', function() {
-                // Change the src back to the original image
                 img.src = originalSrc;
             });
         }
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+        var videos = document.getElementsByTagName('video');
+        for (var i = 0; i < videos.length; i++) {
+            videos[i].setAttribute('preload', 'metadata');
+        }
+    });
 </script>
 </body>
 </html>
