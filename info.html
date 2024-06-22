@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Sandcastle Website</title>
   <link rel="shortcut icon" href="assets/sandcastle-favicon.png" type="image/x-icon">
@@ -19,17 +19,13 @@
 
     body {
       margin: 0;
-      padding: 0;
       max-width: 100%;
-      width: 100%;
+      max-height: 100%;
       overflow-x: hidden;
-      min-height: 100vh; /* Set the minimum height to 100% of the viewport height */
-      display: flex; /* Add this line */
-      flex-direction: column; /* Add this line */
-    }
-
-    #container {
-      flex: 1 0 auto; /* This will make the container take up remaining vertical space */
+      font-family: "Lexend", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      min-height: 100vh; /* Ensure minimum height of viewport */
       display: flex;
       flex-direction: column;
     }
@@ -42,10 +38,7 @@
       width: 100%;
       padding: 40px;
       margin: 0;
-      box-sizing: border-box; /* Include padding and border in the element's total width and height */
-      font-family: "Lexend", sans-serif;
-      font-weight: 400;
-      font-style: normal;
+      box-sizing: border-box;
     }
 
     #header-left {
@@ -60,59 +53,23 @@
 
     #header-right {
       display: flex;
-      flex-wrap: nowrap; /* Prevent icons from wrapping to a new line */
+      flex-wrap: nowrap;
     }
 
     .menu {
       width: 50px;
       height: 50px;
       margin-left: 10px;
-      flex-shrink: 0; /* Prevent icons from shrinking */
+      flex-shrink: 0;
     }
-    @media (max-width: 600px) {
-      #header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 20px;
-      }
 
-      #header-left, #header-right {
-        display: block;
-        width: 100%;
-      }
-
-      .menu {
-        width: 30px;
-        height: 30px;
-        margin: 5px;
-      }
-      footer {
-        flex-direction: column;
-        padding: 10px;
-      }
-
-      footer div, footer nav {
-        margin: 10px 0;
-        text-align: center;
-      }
-
-      footer nav ul {
-        flex-direction: column;
-      }
-
-      footer nav ul li {
-        margin: 5px 0;
-      }
-    }
     .pageclip-form {
       display: flex;
       flex-direction: column;
       gap: 10px;
       max-width: 500px;
-      margin: auto;
-      padding: 20px; /* Add padding */
-      margin-top: 20px; /* Add margin to the top to avoid overlapping */
-      margin-bottom: 100px; /* Adjust this value according to the height of your footer */
+      margin: 20px auto 100px;
+      padding: 20px;
     }
 
     .pageclip-form input[type="email"],
@@ -143,27 +100,85 @@
     .pageclip-form__submit:hover {
       background-color: #9a6224;
     }
+
     footer {
-      flex-shrink: 0;
-      position: relative;
+      background-color: #ECEAE5;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      color: #282828;
+      margin-top: auto; /* Push footer to bottom */
+    }
+
+    footer a {
+      color: #c17e32;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    footer li {
+      margin-right: 15px;
+    }
+
+    @media (max-width: 600px) {
+      #header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+      }
+
+      #header-left, #header-right {
+        display: block;
+        width: 100%;
+      }
+
+      .menu {
+        width: 30px;
+        height: 30px;
+        margin: 5px;
+      }
+
+      footer {
+        position: static; /* Remove fixed positioning */
+        padding: 10px;
+      }
+
+      footer div, footer nav {
+        margin: 10px 0;
+        text-align: center;
+      }
+
+      footer nav ul {
+        flex-direction: column;
+      }
+
+      footer nav ul li {
+        margin: 5px 0;
+      }
     }
   </style>
 </head>
 <body>
-
-<div id="container">
-
 <div id="header">
   <div id="header-left">
-    <img class="aicsLogo" src="assets/aics.png" />
+    <img class="aicsLogo" src="assets/aics.png" alt="AICS Logo" />
     <h1>SandCastle Web</h1>
   </div>
   <div id="header-right">
-    <a href="index.html"><img class="menu" src="assets/home.svg" /></a>
-    <a href="map.html"><img class="menu" src="assets/map.svg" /></a>
-    <a href="tips.html"><img class="menu" src="assets/tips.svg" /></a>
-    <a href="history.html"><img class="menu" src="assets/history.svg" /></a>
-    <a href="info.html"><img class="menu" src="assets/info.svg" /></a>
+    <a href="index.html"><img class="menu" src="assets/home.svg" alt="Home" /></a>
+    <a href="map.html"><img class="menu" src="assets/map.svg" alt="Map" /></a>
+    <a href="tips.html"><img class="menu" src="assets/tips.svg" alt="Tips" /></a>
+    <a href="history.html"><img class="menu" src="assets/history.svg" alt="History" /></a>
+    <a href="info.html"><img class="menu" src="assets/info.svg" alt="Info" /></a>
   </div>
 </div>
 
@@ -173,7 +188,7 @@
   </svg>
 </div>
 
-<div style="padding: 20px; box-sizing: border-box; font-family: 'Lexend', sans-serif; font-weight: 400; font-style: normal; width: 60%; margin: -50px auto">
+<div style="padding: 20px; box-sizing: border-box; width: 60%; margin: -50px auto">
   <h2>Admin/Info</h2>
   <p>Welcome to the admin/info page. Here you can find information about the website and the creators.</p>
   <h3>Creators</h3>
@@ -181,10 +196,9 @@
   <h3>Website</h3>
   <p>This website was created as a project for the AICS students. It is a simple website that provides information about the Sandcastle, tips and tricks, and a map of the school campus.</p>
   <h3>Admin</h3>
-  <p>For admin purposes, please contact the creators of the website vie the following form.</p>
+  <p>For admin purposes, please contact the creators of the website via the following form.</p>
 </div>
 
-<!-- Add a new textarea for the message part -->
 <form action="https://send.pageclip.co/fsD9GlKgwr8EyWJDPO39nC5K2QQl7uQZ/aics-contact" class="pageclip-form" method="post">
   <input type="email" name="email" placeholder="roscoe@example.com" />
   <input type="text" name="subject" placeholder="Subject" />
@@ -194,56 +208,39 @@
   </button>
 </form>
 
-</div>
-
-
-
-<footer style="background-color: #ECEAE5; position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; color: #282828; font-family: 'Lexend', sans-serif; font-weight: 400; font-style: normal;">
-  <div style="margin-right: 20px;">
-    <h3 style="margin: 0; font-weight: bold;">SandCastle Web</h3>
-    <a href="#header"><p style="margin: 5px 0; font-style: italic; color: #282828; text-decoration: underline;">Back to the top</p></a>
+<footer>
+  <div>
+    <h3>SandCastle Web</h3>
+    <a href="#header"><p>Back to the top</p></a>
   </div>
   <nav>
-    <ul style="list-style-type: none; margin: 0; padding: 0; display: flex;">
-      <li style="margin-right: 15px;"><a href="/" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Home</a></li>
-      <li style="margin-right: 15px;"><a href="map.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Sandcastle Map</a></li>
-      <li style="margin-right: 15px;"><a href="tips.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Tips&Tricks</a></li>
-      <li style="margin-right: 15px;"><a href="history.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">History</a></li>
-      <li style="margin-right: 15px;"><a href="info.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Admin/Info</a></li>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="map.html">Sandcastle Map</a></li>
+      <li><a href="tips.html">Tips&Tricks</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="info.html">Admin/Info</a></li>
     </ul>
   </nav>
-  <div style="margin-left: 20px;">
-    <p style="margin: 5px 0;">Created by students of <a href="https://aics.espritscholen.nl" target="_blank" style="color: #282828; text-decoration: underline;">AICS</a></p>
-    <p style="margin: 5px 0; font-size: 12px;">&copy; 2024 SandCastle Web. All rights reserved.</p>
+  <div>
+    <p>Created by students of <a href="https://aics.espritscholen.nl" target="_blank">AICS</a></p>
+    <p>&copy; 2024 SandCastle Web. All rights reserved.</p>
   </div>
 </footer>
+
 <script>
-
-  // Select all menu images
   let menuImages = document.querySelectorAll('.menu');
-
-  // Loop through each image
   menuImages.forEach((img) => {
-    // Store the original src
     let originalSrc = img.src;
-
-    // Check if the image is not home.svg
     if (!originalSrc.includes('info.svg')) {
-      // Add mouseover event listener
       img.addEventListener('mouseover', function() {
-        // Change the src to the new image
-        // Append 'a' to the original image name
         img.src = originalSrc.replace('.svg', 'a.svg');
       });
-
-      // Add mouseout event listener
       img.addEventListener('mouseout', function() {
-        // Change the src back to the original image
         img.src = originalSrc;
       });
     }
   });
-
 </script>
 <script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
 </body>
