@@ -13,11 +13,26 @@
   <link rel="preload" href="assets/tipsa.svg" as="image" type="image/svg+xml">
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#ECEAE5">
+  <link rel="stylesheet" href="https://s.pageclip.co/v1/pageclip.css" media="screen">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 
-    body { margin: 0; padding: 0; max-width: 100%; width: 100%; overflow-x: hidden}
-    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    body {
+      margin: 0;
+      padding: 0;
+      max-width: 100%;
+      width: 100%;
+      overflow-x: hidden;
+      min-height: 100vh; /* Set the minimum height to 100% of the viewport height */
+      display: flex; /* Add this line */
+      flex-direction: column; /* Add this line */
+    }
+
+    #container {
+      flex: 1 0 auto; /* This will make the container take up remaining vertical space */
+      display: flex;
+      flex-direction: column;
+    }
 
     #header {
       display: flex;
@@ -89,9 +104,54 @@
         margin: 5px 0;
       }
     }
+    .pageclip-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px; /* Add padding */
+      margin-top: 20px; /* Add margin to the top to avoid overlapping */
+      margin-bottom: 100px; /* Adjust this value according to the height of your footer */
+    }
+
+    .pageclip-form input[type="email"],
+    .pageclip-form input[type="text"],
+    .pageclip-form textarea {
+      padding: 10px;
+      border: 1px solid #c17e32;
+      border-radius: 5px;
+      font-size: 16px;
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .pageclip-form textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .pageclip-form__submit {
+      background-color: #c17e32;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .pageclip-form__submit:hover {
+      background-color: #9a6224;
+    }
+    footer {
+      flex-shrink: 0;
+      position: relative;
+    }
   </style>
 </head>
 <body>
+
+<div id="container">
 
 <div id="header">
   <div id="header-left">
@@ -113,15 +173,28 @@
   </svg>
 </div>
 
-<a href="map.html"><h2>Map</h2></a>
-<h2>Tips & Tricks</h2>
-<p></p>
-<h2>History</h2>
-<p></p>
-<div id="goToTop">
-  <p><a href="#header">Go To Top</a></p>
+<div style="padding: 20px; box-sizing: border-box; font-family: 'Lexend', sans-serif; font-weight: 400; font-style: normal; width: 60%; margin: -50px auto">
+  <h2>Admin/Info</h2>
+  <p>Welcome to the admin/info page. Here you can find information about the website and the creators.</p>
+  <h3>Creators</h3>
+  <p>This website was created by students of the <a href="https://aics.espritscholen.nl" target="_blank">Amsterdam International Community School</a>.</p>
+  <h3>Website</h3>
+  <p>This website was created as a project for the AICS students. It is a simple website that provides information about the Sandcastle, tips and tricks, and a map of the school campus.</p>
+  <h3>Admin</h3>
+  <p>For admin purposes, please contact the creators of the website vie the following form.</p>
 </div>
 
+<!-- Add a new textarea for the message part -->
+<form action="https://send.pageclip.co/fsD9GlKgwr8EyWJDPO39nC5K2QQl7uQZ/aics-contact" class="pageclip-form" method="post">
+  <input type="email" name="email" placeholder="roscoe@example.com" />
+  <input type="text" name="subject" placeholder="Subject" />
+  <textarea name="message" placeholder="Your message here..."></textarea>
+  <button type="submit" class="pageclip-form__submit">
+    <span>Send</span>
+  </button>
+</form>
+
+</div>
 
 
 
@@ -172,5 +245,6 @@
   });
 
 </script>
+<script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
 </body>
 </html>
