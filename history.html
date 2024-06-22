@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sandcastle Website</title>
     <link rel="shortcut icon" href="assets/sandcastle-favicon.png" type="image/x-icon">
@@ -11,13 +11,24 @@
     <link rel="preload" href="assets/infoa.svg" as="image" type="image/svg+xml">
     <link rel="preload" href="assets/mapa.svg" as="image" type="image/svg+xml">
     <link rel="preload" href="assets/tipsa.svg" as="image" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#90DDAE">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 
-        body { margin: 0; padding: 0; max-width: 100%; width: 100%; overflow-x: hidden}
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        body {
+            margin: 0;
+            max-width: 100%;
+            max-height: 100%;
+            overflow-x: hidden;
+            font-family: "Lexend", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
 
         #header {
             display: flex;
@@ -26,11 +37,7 @@
             background: #90DDAE;
             width: 100%;
             padding: 40px;
-            margin: 0;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            font-family: "Lexend", sans-serif;
-            font-weight: 400;
-            font-style: normal;
+            box-sizing: border-box;
         }
 
         #header-left {
@@ -45,177 +52,84 @@
 
         #header-right {
             display: flex;
-            flex-wrap: nowrap; /* Prevent icons from wrapping to a new line */
+            flex-wrap: nowrap;
         }
 
         .menu {
             width: 50px;
             height: 50px;
             margin-left: 10px;
-            flex-shrink: 0; /* Prevent icons from shrinking */
-        }
-        .timeline h1 {
-            text-align: center;
+            flex-shrink: 0;
         }
 
-        .timeline ul {
-            --col-gap: 2rem;
-            --row-gap: 10rem;
-            --line-w: 0.25rem;
-            display: grid;
-            grid-template-columns: var(--line-w) 1fr;
-            grid-auto-columns: max-content;
-            column-gap: var(--col-gap);
-            list-style: none;
-            width: min(60rem, 90%);
-            margin-inline: auto;
+
+
+        footer {
+            background-color: #90DDAE;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            color: #282828;
         }
 
-        /* line */
-        .timeline ul::before {
-            content: "";
-            grid-column: 1;
-            grid-row: 1 / span 20;
-            background: rgb(225, 225, 225);
-            border-radius: calc(var(--line-w) / 2);
+        footer h3 {
+            margin: 0;
+            font-weight: bold;
         }
 
-        /* columns*/
-
-        /* row gaps */
-        .timeline ul li:not(:last-child) {
-            margin-bottom: var(--row-gap);
+        footer p {
+            margin: 5px 0;
         }
 
-        /* card */
-        .timeline ul li {
-            grid-column: 2;
-            --inlineP: 1.5rem;
-            margin-inline: var(--inlineP);
-            grid-row: span 2;
-            display: grid;
-            grid-template-rows: min-content min-content min-content;
+        footer nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
         }
 
-        /* date */
-        .timeline ul li .date {
-            --dateH: 3rem;
-            height: var(--dateH);
-            margin-inline: calc(var(--inlineP) * -1);
-
-            text-align: center;
-            background-color: var(--accent-color);
-
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-
-            display: grid;
-            place-content: center;
-            position: relative;
-
-            border-radius: calc(var(--dateH) / 2) 0 0 calc(var(--dateH) / 2);
+        footer nav ul li {
+            margin-right: 15px;
         }
 
-        /* date flap */
-        .timeline ul li .date::before {
-            content: "";
-            width: var(--inlineP);
-            aspect-ratio: 1;
-            background: var(--accent-color);
-            background-image: linear-gradient(rgba(0, 0, 0, 0.2) 100%, transparent);
-            position: absolute;
-            top: 100%;
-
-            clip-path: polygon(0 0, 100% 0, 0 100%);
-            right: 0;
+        footer a {
+            text-decoration: none;
+            color: #c17e32;
+            transition: color 0.3s ease;
         }
 
-        /* circle */
-        .timeline ul li .date::after {
-            content: "";
-            position: absolute;
-            width: 2rem;
-            aspect-ratio: 1;
-            border: 0.3rem solid var(--accent-color);
-            border-radius: 50%;
-            top: 50%;
-
-            transform: translate(50%, -50%);
-            right: calc(100% + var(--col-gap) + var(--line-w) / 2);
+        footer a:hover {
+            color: #282828;
         }
 
-        /* title descr */
-        .timeline ul li .title,
-        .timeline ul li .descr {
-            position: relative;
-            padding-inline: 1.5rem;
-        }
-        .timeline ul li .title {
-            overflow: hidden;
-            padding-block-start: 1.5rem;
-            padding-block-end: 1rem;
-            font-weight: 500;
-        }
-        .timeline ul li .descr {
-            padding-block-end: 1.5rem;
-            font-weight: 300;
+        .histext {
+            width: 60%;
+            margin:auto;
+            margin-top: -50px;
+            margin-bottom: 50px;
         }
 
-        /* shadows */
-        .timeline ul li .title::before,
-        .timeline ul li .descr::before {
-            content: "";
-            position: absolute;
-            width: 90%;
-            height: 0.1rem;
-            background: rgba(0, 0, 0, 0.5);
-            left: 50%;
-            border-radius: 50%;
-            filter: blur(4px);
-            transform: translate(-50%, 50%);
-        }
-        .timeline ul li .title::before {
-            bottom: calc(100% + 0.125rem);
+        .testHeader {
+            text-align: left;
+
         }
 
-        .timeline ul li .descr::before {
-            z-index: -1;
-            bottom: 0.25rem;
+
+        .history-text {
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: justify;
+        }
+        .histext img {
+            width: 40%;
+            height: auto;
+            margin: auto;
+            display: block;
+            padding: 30px 0 30px 0;
         }
 
-        @media (min-width: 40rem) {
-            .timeline ul {
-                grid-template-columns: 1fr var(--line-w) 1fr;
-            }
-            .timeline ul::before {
-                grid-column: 2;
-            }
-            .timeline ul li:nth-child(odd) {
-                grid-column: 1;
-            }
-            .timeline ul li:nth-child(even) {
-                grid-column: 3;
-            }
-
-            /* start second card */
-            .timeline ul li:nth-child(2) {
-                grid-row: 2/4;
-            }
-
-            .timeline ul li:nth-child(odd) .date::before {
-                clip-path: polygon(0 0, 100% 0, 100% 100%);
-                left: 0;
-            }
-
-            .timeline ul li:nth-child(odd) .date::after {
-                transform: translate(-50%, -50%);
-                left: calc(100% + var(--col-gap) + var(--line-w) / 2);
-            }
-            .timeline ul li:nth-child(odd) .date {
-                border-radius: 0 calc(var(--dateH) / 2) calc(var(--dateH) / 2) 0;
-            }
-        }
         @media (max-width: 600px) {
             #header {
                 flex-direction: column;
@@ -233,6 +147,7 @@
                 height: 30px;
                 margin: 5px;
             }
+
             footer {
                 flex-direction: column;
                 padding: 10px;
@@ -250,32 +165,41 @@
             footer nav ul li {
                 margin: 5px 0;
             }
-        }
-        .timeline {
-            --color: rgba(30, 30, 30);
-            min-height: 100vh;
-            display: grid;
-            align-content: center;
-            gap: 2rem;
-            padding: 2rem;
-            font-family: "Poppins", sans-serif;
-            color: var(--color);
+            /* Adjust the width of the text container */
+            .histext {
+                width: 90%;
+            }
+
+            /* Adjust the font size of the history text */
+            .history-text {
+                font-size: 14px;
+            }
+
+            /* Adjust the size of the images */
+            .histext img {
+                width: 100%;
+                padding: 15px 0 15px 0;
+            }
+
+            /* Adjust the size of the header */
+            .testHeader {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-
 <div id="header">
     <div id="header-left">
-        <img class="aicsLogo" src="assets/aics.png" />
+        <img class="aicsLogo" src="assets/aics.png" alt="AICS Logo">
         <h1>SandCastle Web</h1>
     </div>
     <div id="header-right">
-        <a href="index.html"><img class="menu" src="assets/home.svg" /></a>
-        <a href="map.html"><img class="menu" src="assets/map.svg" /></a>
-        <a href="tips.html"><img class="menu" src="assets/tips.svg" /></a>
-        <a href="history.html"><img class="menu" src="assets/history.svg" /></a>
-        <a href="info.html"><img class="menu" src="assets/info.svg" /></a>
+        <a href="index.html"><img class="menu" src="assets/home.svg" alt="Home"></a>
+        <a href="map.html"><img class="menu" src="assets/map.svg" alt="Map"></a>
+        <a href="tips.html"><img class="menu" src="assets/tips.svg" alt="Tips"></a>
+        <a href="history.html"><img class="menu" src="assets/history.svg" alt="History"></a>
+        <a href="info.html"><img class="menu" src="assets/info.svg" alt="Info"></a>
     </div>
 </div>
 
@@ -285,86 +209,66 @@
     </svg>
 </div>
 
-<div class="timeline">
-<ul>
-    <li style="--accent-color:#41516C">
-        <div class="date">2002</div>
-        <div class="title">Title 1</div>
-        <div class="descr">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas itaque hic quibusdam fugiat est numquam harum, accusamus suscipit consequatur laboriosam!</div>
-    </li>
-    <li style="--accent-color:#FBCA3E">
-        <div class="date">2007</div>
-        <div class="title">Title 2</div>
-        <div class="descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos adipisci nobis nostrum vero nihil veniam.</div>
-    </li>
-    <li style="--accent-color:#E24A68">
-        <div class="date">2012</div>
-        <div class="title">Title 3</div>
-        <div class="descr">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga minima consequuntur soluta placeat iure totam commodi repellendus ea delectus, libero fugit quod reprehenderit, sequi quo, et dolorum saepe nulla hic.</div>
-    </li>
-    <li style="--accent-color:#1B5F8C">
-        <div class="date">2017</div>
-        <div class="title">Title 4</div>
-        <div class="descr">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, cumque.</div>
-    </li>
-    <li style="--accent-color:#4CADAD">
-        <div class="date">2022</div>
-        <div class="title">Title 5</div>
-        <div class="descr">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit, non.</div>
-    </li>
-</ul>
+<div class="histext">
+
+    <h1 class="testHeader">History of The Sandcastle</h1>
+
+    <img src="assets/outsidesc.jpg">
+    <p class="history-text">
+        Located in the centre of Amsterdam-Zuidoost is a massive and historical building that locals call "The Sandcastle." Constructed in 1987, the former headquarters of ING has become a renowned icon, lauded for its distinct style and architectural significance.
+        <br><br>
+    Built in a time when organic architecture was becoming more and more popular, The Sandcastle is a remarkable illustration of this experimental approach. The structure, which was created by well-known architects Alberts and Van Huut, is distinguished by its sloping walls that look like sand, its extensive use of water elements, its lush gardens, and its natural materials like wood.
+    <br><br>
+    The Sandcastle has received a great deal of recognition and praise throughout the years. Due to its timeless appeal and creative architecture, it was acclaimed as the most admired contemporary building in the Netherlands in the 1990s. When it came to the nation's most attractive building, the Gasunie headquarters in Groningen took first place in the 2007 voting. Moreover, The Sandcastle's cultural and historical value was highlighted in 2017 when it was designated as the first municipal monument in Amsterdam Southeast.
+    <br><br>
+<img src="assets/insidesc.jpg" >
+        <br><br>
+    As Amsterdam-Zuidoost's landscape continues to change, The Sandcastle is now starting a new phase in its illustrious history. Plans are in place to convert the building from its original use as an office space into a dynamic mixed-use development through an innovative and cooperative endeavour. The ambitious project entails repurposing The Sandcastle to serve several purposes, such as housing, an international school, and restaurants.
+    <br><br>
+    The Sandcastle's transformation represents the adaptability of building and the long-lasting impact of innovative design. This landmark building continues to be a remarkable example of organic architecture's ability to fit in with its surroundings while providing a timeless expression of creativity and creativity, even as it changes to meet the requirements of a changing community.
+</p>
+    
+    
+    <img src="assets/topsc.jpg" alt="">
+
 </div>
 
-
-
-
-
-<footer style="background-color: #90DDAE; position: relative; bottom: 0; left: 0; right: 0; padding: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; color: #282828; font-family: 'Lexend', sans-serif; font-weight: 400; font-style: normal;">
-    <div style="margin-right: 20px;">
-        <h3 style="margin: 0; font-weight: bold;">SandCastle Web</h3>
-        <a href="#header"><p style="margin: 5px 0; font-style: italic; color: #282828; text-decoration: underline;">Back to the top</p></a>
+<footer>
+    <div>
+        <h3>SandCastle Web</h3>
+        <a href="#header"><p>Back to the top</p></a>
     </div>
     <nav>
-        <ul style="list-style-type: none; margin: 0; padding: 0; display: flex;">
-            <li style="margin-right: 15px;"><a href="/" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Home</a></li>
-            <li style="margin-right: 15px;"><a href="map.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Sandcastle Map</a></li>
-            <li style="margin-right: 15px;"><a href="tips.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Tips&Tricks</a></li>
-            <li style="margin-right: 15px;"><a href="history.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">History</a></li>
-            <li style="margin-right: 15px;"><a href="info.html" style="text-decoration: none; color: #c17e32; transition: color 0.3s ease;">Admin/Info</a></li>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="map.html">Sandcastle Map</a></li>
+            <li><a href="tips.html">Tips&Tricks</a></li>
+            <li><a href="history.html">History</a></li>
+            <li><a href="info.html">Admin/Info</a></li>
         </ul>
     </nav>
-    <div style="margin-left: 20px;">
-        <p style="margin: 5px 0;">Created by students of <a href="https://aics.espritscholen.nl" target="_blank" style="color: #282828; text-decoration: underline;">AICS</a></p>
-        <p style="margin: 5px 0; font-size: 12px;">&copy; 2024 SandCastle Web. All rights reserved.</p>
+    <div>
+        <p>Created by students of <a href="https://aics.espritscholen.nl" target="_blank">AICS</a></p>
+        <p>&copy; 2024 SandCastle Web. All rights reserved.</p>
     </div>
 </footer>
-<script>
 
-    // Select all menu images
+<script>
     let menuImages = document.querySelectorAll('.menu');
 
-    // Loop through each image
     menuImages.forEach((img) => {
-        // Store the original src
         let originalSrc = img.src;
 
-        // Check if the image is not home.svg
         if (!originalSrc.includes('history.svg')) {
-            // Add mouseover event listener
             img.addEventListener('mouseover', function() {
-                // Change the src to the new image
-                // Append 'a' to the original image name
                 img.src = originalSrc.replace('.svg', 'a.svg');
             });
 
-            // Add mouseout event listener
             img.addEventListener('mouseout', function() {
-                // Change the src back to the original image
                 img.src = originalSrc;
             });
         }
     });
-
 </script>
 </body>
 </html>
